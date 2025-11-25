@@ -1,12 +1,24 @@
 /* global use, db */
 
-// For more documentation on playgrounds please refer to
-// https://www.mongodb.com/docs/mongodb-vscode/playgrounds/
+// Seleccionar la base de datos
+use("RosaPastel");
 
-// Select the database to use.
-use('mongodbVSCodePlaygroundDB');
+//
+// 1️⃣ VERIFICAR QUE LOS DATOS EXISTEN
+//
+db.clientes.countDocuments();
+db.productos.countDocuments();
+db.pedidos.countDocuments();
+db.detalles_pedido.countDocuments();
 
-// RELACIONES ENTRE TABLAS
+db.getName();  // Debe mostrar: "RosaPastel"
+
+db.detalles_pedido.countDocuments();
+db.detalles_pedido.findOne();
+
+// ---------------------------------------------------------------------------
+// 2️⃣ RELACIONES ENTRE COLECCIONES
+// ---------------------------------------------------------------------------
 
 // RELACIÓN 1: Pedidos con información del cliente
 db.pedidos.aggregate([
@@ -32,9 +44,11 @@ db.detalles_pedido.aggregate([
   }
 ]);
 
-// REPORTES REQUERIDOS (MINIMO 3)
+// ---------------------------------------------------------------------------
+// 3️⃣ REPORTES REQUERIDOS
+// ---------------------------------------------------------------------------
 
-// REPORTE 1: Productos más vendidos (top 10)
+// REPORTE 1: Productos más vendidos (Top 10)
 db.detalles_pedido.aggregate([
   { $group: { _id: "$id_producto", total_vendido: { $sum: "$cantidad" } } },
   { $sort: { total_vendido: -1 } },
